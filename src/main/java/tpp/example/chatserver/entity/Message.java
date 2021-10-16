@@ -15,9 +15,11 @@ public class Message {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @NotNull private String type;
+  @NotNull
+  private String type;
 
-  @NotNull private String payload;
+  @NotNull
+  private String payload;
 
   @Column(name = "created_at")
   private LocalDateTime createdAt;
