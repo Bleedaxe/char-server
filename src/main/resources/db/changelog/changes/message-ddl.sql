@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+
+-- changeset tsvetelin:1
 CREATE TABLE message
 (
     id         BIGINT       NOT NULL PRIMARY KEY AUTO_INCREMENT,
