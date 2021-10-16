@@ -9,22 +9,23 @@ import org.testcontainers.containers.MySQLContainer;
 @SpringBootTest
 public abstract class BaseTestcontainersSetup {
 
-    protected static MySQLContainer<?> mySqlContainer;
+  protected static MySQLContainer<?> mySqlContainer;
 
-    @BeforeAll
-    public static void setUpAll() {
-        mySqlContainer = new MySQLContainer<>("mysql:5.7")
-                .withUsername("root")
-                .withPassword("root")
-                .withDatabaseName("chat_server");
+  @BeforeAll
+  public static void setUpAll() {
+    mySqlContainer =
+        new MySQLContainer<>("mysql:5.7")
+            .withUsername("root")
+            .withPassword("root")
+            .withDatabaseName("chat_server");
 
-        mySqlContainer.start();
-    }
+    mySqlContainer.start();
+  }
 
-    @DynamicPropertySource
-    public static void setDatasourceProperties(final DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", mySqlContainer::getJdbcUrl);
-        registry.add("spring.datasource.password", mySqlContainer::getPassword);
-        registry.add("spring.datasource.username", mySqlContainer::getUsername);
-    }
+  @DynamicPropertySource
+  public static void setDatasourceProperties(final DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", mySqlContainer::getJdbcUrl);
+    registry.add("spring.datasource.password", mySqlContainer::getPassword);
+    registry.add("spring.datasource.username", mySqlContainer::getUsername);
+  }
 }

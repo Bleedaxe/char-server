@@ -11,16 +11,14 @@ import java.time.LocalDateTime;
 @Table(name = "message")
 public class Message {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
-    @NotNull
-    private String type;
+  @NotNull private String type;
 
-    @NotNull
-    private String payload;
+  @NotNull private String payload;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+  @Column(name = "created_at")
+  private LocalDateTime createdAt;
 }

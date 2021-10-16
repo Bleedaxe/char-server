@@ -15,78 +15,76 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ExtendWith(MockitoExtension.class)
 class TextMessageHandlerServiceTest {
 
-    private static final String VALID_TYPE = "send_text";
+  private static final String VALID_TYPE = "send_text";
 
-    @Mock
-    private MessageRepository messageRepository;
+  @Mock private MessageRepository messageRepository;
 
-    @InjectMocks
-    private TextMessageHandlerService textMessageHandlerService;
+  @InjectMocks private TextMessageHandlerService textMessageHandlerService;
 
-    @Test
-    void canHandleMessage_withValidType_shouldReturnTrue() {
-        boolean result = textMessageHandlerService.canHandleMessage(VALID_TYPE);
+  @Test
+  void canHandleMessage_withValidType_shouldReturnTrue() {
+    boolean result = textMessageHandlerService.canHandleMessage(VALID_TYPE);
 
-        assertThat(result).isTrue();
-    }
+    assertThat(result).isTrue();
+  }
 
-    @Test
-    void canHandleMessage_withInvalidType_shouldReturnFalse() {
-        String type = "test_type123";
+  @Test
+  void canHandleMessage_withInvalidType_shouldReturnFalse() {
+    String type = "test_type123";
 
-        boolean result = textMessageHandlerService.canHandleMessage(type);
+    boolean result = textMessageHandlerService.canHandleMessage(type);
 
-        assertThat(result).isFalse();
-    }
+    assertThat(result).isFalse();
+  }
 
-    @Test
-    void isMessageValid_withValidPayload_shouldReturnTrue() {
-        MessageDto message = new MessageDto();
-        message.setPayload("valid payload");
+  @Test
+  void isMessageValid_withValidPayload_shouldReturnTrue() {
+    MessageDto message = new MessageDto();
+    message.setPayload("valid payload");
 
-        boolean isMessageValid = textMessageHandlerService.isMessageValid(VALID_TYPE, message);
+    boolean isMessageValid = textMessageHandlerService.isMessageValid(VALID_TYPE, message);
 
-        assertThat(isMessageValid).isTrue();
-    }
+    assertThat(isMessageValid).isTrue();
+  }
 
-    @Test
-    void isMessageValid_withInvalidPayload_shouldReturnFalse() {
-        MessageDto message = new MessageDto();
-        message.setPayload("");
+  @Test
+  void isMessageValid_withInvalidPayload_shouldReturnFalse() {
+    MessageDto message = new MessageDto();
+    message.setPayload("");
 
-        boolean isMessageValid = textMessageHandlerService.isMessageValid(VALID_TYPE, message);
+    boolean isMessageValid = textMessageHandlerService.isMessageValid(VALID_TYPE, message);
 
-        assertThat(isMessageValid).isFalse();
-    }
+    assertThat(isMessageValid).isFalse();
+  }
 
-    @Test
-    void isMessageHandled_withValidParameters_shouldReturnTrue() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setPayload("valid payload");
+  @Test
+  void isMessageHandled_withValidParameters_shouldReturnTrue() {
+    MessageDto messageDto = new MessageDto();
+    messageDto.setPayload("valid payload");
 
-        boolean messageHandled = textMessageHandlerService.isMessageHandled(messageDto, VALID_TYPE);
+    boolean messageHandled = textMessageHandlerService.isMessageHandled(messageDto, VALID_TYPE);
 
-        assertThat(messageHandled).isTrue();
-    }
+    assertThat(messageHandled).isTrue();
+  }
 
-    @Test
-    void isMessageHandled_withInvalidType_shouldReturnFalse() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setPayload("valid payload");
-        String type = "test_123";
+  @Test
+  void isMessageHandled_withInvalidType_shouldReturnFalse() {
+    MessageDto messageDto = new MessageDto();
+    messageDto.setPayload("valid payload");
+    String type = "test_123";
 
-        boolean messageHandled = textMessageHandlerService.isMessageHandled(messageDto, type);
+    boolean messageHandled = textMessageHandlerService.isMessageHandled(messageDto, type);
 
-        assertThat(messageHandled).isFalse();
-    }
+    assertThat(messageHandled).isFalse();
+  }
 
-    @Test
-    void isMessageHandled_withInvalidMessage_shouldThrowInvalidMessageException() {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setPayload("");
+  @Test
+  void isMessageHandled_withInvalidMessage_shouldThrowInvalidMessageException() {
+    MessageDto messageDto = new MessageDto();
+    messageDto.setPayload("");
 
-        assertThatThrownBy(() -> textMessageHandlerService.isMessageHandled(messageDto, VALID_TYPE))
-                .isInstanceOf(InvalidMessageException.class)
-                .hasMessage("Invalid message with type [send_text] and payload []");
-    }
+    assertThatThrownBy(() -> textMessageHandlerService.isMessageHandled(messageDto, VALID_TYPE))
+        .isInstanceOf(InvalidMessageException.class)
+        .hasMessage("Invalid message with type [send_text] and payload []");
+  }
 }

@@ -10,39 +10,39 @@ import java.time.LocalDateTime;
 
 public abstract class BaseMessageHandlerService implements MessageHandlerService {
 
-    protected final MessageRepository messageRepository;
+  protected final MessageRepository messageRepository;
 
-    protected BaseMessageHandlerService(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
+  protected BaseMessageHandlerService(MessageRepository messageRepository) {
+    this.messageRepository = messageRepository;
+  }
+
+  protected abstract boolean canHandleMessage(String type);
+
+  protected abstract boolean isMessageValid(String type, MessageDto message);
+
+  @Override
+  public boolean isMessageHandled(MessageDto message, String type) {
+    if (!canHandleMessage(type)) {
+      return false;
     }
 
-    protected abstract boolean canHandleMessage(String type);
-
-    protected abstract boolean isMessageValid(String type, MessageDto message);
-
-    @Override
-    public boolean isMessageHandled(MessageDto message, String type) {
-        if (!canHandleMessage(type)) {
-            return false;
-        }
-
-        if (!isMessageValid(type, message)) {
-            throw new InvalidMessageException(type, message.getPayload());
-        }
-
-        Message entity = createEntity(message, type);
-        messageRepository.save(entity);
-
-        return true;
+    if (!isMessageValid(type, message)) {
+      throw new InvalidMessageException(type, message.getPayload());
     }
 
-    private Message createEntity(MessageDto message, String type) {
-        Message entity = new Message();
+    Message entity = createEntity(message, type);
+    messageRepository.save(entity);
 
-        entity.setPayload(message.getPayload());
-        entity.setType(type);
-        entity.setCreatedAt(LocalDateTime.now());
+    return true;
+  }
 
-        return entity;
-    }
+  private Message createEntity(MessageDto message, String type) {
+    Message entity = new Message();
+
+    entity.setPayload(message.getPayload());
+    entity.setType(type);
+    entity.setCreatedAt(LocalDateTime.now());
+
+    return entity;
+  }
 }

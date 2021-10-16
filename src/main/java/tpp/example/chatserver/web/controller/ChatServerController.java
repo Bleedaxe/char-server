@@ -11,16 +11,16 @@ import tpp.example.chatserver.web.model.MessageDto;
 @RestController
 public class ChatServerController {
 
-    private final ChatServerService chatServerService;
+  private final ChatServerService chatServerService;
 
-    @Autowired
-    public ChatServerController(ChatServerService chatServerService) {
-        this.chatServerService = chatServerService;
-    }
+  @Autowired
+  public ChatServerController(ChatServerService chatServerService) {
+    this.chatServerService = chatServerService;
+  }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/messages/{type}")
-    public void addMessage(@PathVariable("type") String type, @RequestBody MessageDto message) {
-        chatServerService.handleMessage(message, type);
-    }
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping("/messages/{type}")
+  public void addMessage(@PathVariable("type") String type, @RequestBody MessageDto message) {
+    chatServerService.handleMessage(message, type);
+  }
 }

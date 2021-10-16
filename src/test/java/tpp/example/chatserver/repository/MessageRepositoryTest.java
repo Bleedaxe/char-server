@@ -12,53 +12,51 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class MessageRepositoryTest extends BaseTestcontainersSetup {
 
-    @Autowired
-    private MessageRepository messageRepository;
+  @Autowired private MessageRepository messageRepository;
 
-    @Test
-    @Transactional
-    void save_validEntity_shouldSaveItIntoDatabase() {
-        String type = "test_type";
-        String payload = "test_payload";
+  @Test
+  @Transactional
+  void save_validEntity_shouldSaveItIntoDatabase() {
+    String type = "test_type";
+    String payload = "test_payload";
 
-        Message message = getMessage(type, payload);
+    Message message = getMessage(type, payload);
 
-        messageRepository.save(message);
-        Iterable<Message> messages = messageRepository.findAll();
+    messageRepository.save(message);
+    Iterable<Message> messages = messageRepository.findAll();
 
-        assertThat(messages).isNotNull()
-                .hasSize(1);
+    assertThat(messages).isNotNull().hasSize(1);
 
-        Message fromDb = messages.iterator().next();
+    Message fromDb = messages.iterator().next();
 
-        assertThat(fromDb).isNotNull()
-                .extracting(Message::getType, Message::getPayload)
-                .containsExactly(type, payload);
-    }
+    assertThat(fromDb)
+        .isNotNull()
+        .extracting(Message::getType, Message::getPayload)
+        .containsExactly(type, payload);
+  }
 
-    @Test
-    @Transactional
-    void save_multipleEntities_shouldSaveThemIntoDatabase() {
-        String type = "test_type";
-        String payload = "test_payload";
+  @Test
+  @Transactional
+  void save_multipleEntities_shouldSaveThemIntoDatabase() {
+    String type = "test_type";
+    String payload = "test_payload";
 
-        messageRepository.save(getMessage(type, payload));
-        messageRepository.save(getMessage(type, payload));
-        messageRepository.save(getMessage(type, payload));
+    messageRepository.save(getMessage(type, payload));
+    messageRepository.save(getMessage(type, payload));
+    messageRepository.save(getMessage(type, payload));
 
-        Iterable<Message> messages = messageRepository.findAll();
+    Iterable<Message> messages = messageRepository.findAll();
 
-        assertThat(messages).isNotNull()
-                .hasSize(3);
-    }
+    assertThat(messages).isNotNull().hasSize(3);
+  }
 
-    private Message getMessage(String type, String payload) {
-        Message message = new Message();
+  private Message getMessage(String type, String payload) {
+    Message message = new Message();
 
-        message.setType(type);
-        message.setPayload(payload);
-        message.setCreatedAt(LocalDateTime.now());
+    message.setType(type);
+    message.setPayload(payload);
+    message.setCreatedAt(LocalDateTime.now());
 
-        return message;
-    }
+    return message;
+  }
 }

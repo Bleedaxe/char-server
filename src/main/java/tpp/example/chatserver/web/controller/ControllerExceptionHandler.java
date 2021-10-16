@@ -12,15 +12,15 @@ import tpp.example.chatserver.exception.InvalidMessageTypeException;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
-    @ExceptionHandler(InvalidMessageException.class)
-    public void handleInvalidMessageException(InvalidMessageException e) {
-        log.error(e.getMessage());
-    }
+  @ResponseStatus(HttpStatus.PRECONDITION_FAILED)
+  @ExceptionHandler(InvalidMessageException.class)
+  public void handleInvalidMessageException(InvalidMessageException e) {
+    log.error(e.getMessage());
+  }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(InvalidMessageTypeException.class)
-    public void handleInvalidMessageTypeException(InvalidMessageTypeException e) {
-        log.error(e.getMessage());
-    }
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(InvalidMessageTypeException.class)
+  public void handleInvalidMessageTypeException(InvalidMessageTypeException e) {
+    log.error(e.getMessage());
+  }
 }
